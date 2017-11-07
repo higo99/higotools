@@ -31,10 +31,10 @@ class Htools:
             sys.path.append(os.getcwd())
             p=os.path.abspath(self.adbdir)+"; "+ os.environ.get("path")
             os.environ["path"]=p  #添加adb命令环境变量
-            self.getconf()
-            if self.isroot():
-                print "Root Pass"
-                self.getparts()
+        self.getconf()
+        if self.isroot():
+            print "Root Pass"
+            self.getparts()
                 #self.mountrw()
             
     
@@ -168,7 +168,7 @@ class Htools:
             pass
         else:
             print "请选择要上传恢复的文件".decode("utf-8").encode(_CODE_)
-            ph = os.path.abspath(self.uploaddir)+"\\"
+            ph = os.path.abspath(self.uploaddir)
             filename=self.__chose(os.listdir(ph))
             if not filename:
                 print "chose bank"
@@ -176,7 +176,7 @@ class Htools:
             print filename
             file2 = os.path.splitext(filename)[0]
 
-        cmd="adb push "+ph+filename+ " /sdcard/"+file2
+        cmd="adb push "+os.path.join(ph,filename)+ " /sdcard/"+file2
         #print cmd
         os.system(cmd)
         #self.push(self.uploaddir +"/"+filename)    
@@ -188,7 +188,7 @@ class Htools:
         path = os.path.abspath(self.scriptdir)
         lst = filter(lambda x: os.path.splitext(x)[1]==".bat",os.listdir(path))
         s = self.__chose(lst)
-        os.system(path+"\\"+s)
+        os.system(os.path.join(path,s))
         print path+s
         
     def push(self,filename,file2=""): 
@@ -296,7 +296,7 @@ class Htools:
     
     
     def getconf(self):
-        settingfile = os.path.dirname(__file__)+"\\setting.ini"
+        settingfile = os.path.dirname(__file__).join("setting.ini")
         print settingfile
         if not os.path.exists(settingfile):
             print "Make default config file:"+settingfile
