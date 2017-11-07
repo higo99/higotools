@@ -3,12 +3,6 @@ import os
 import sys
 import ConfigParser
 class Htools:
-    global _CODE_
-    if(sys.platform == 'darwin'):
-        _CODE_ ="utf-8"
-    else:
-        _CODE_ ="gbk"
-
     #_CODE_="utf-8"
     p=[]
     apkdir="./app"   
@@ -29,14 +23,19 @@ class Htools:
          #'modemst2', 'oeminfo', 'pad', 'persist', 'recovery', 'rpm', 'sbl1', 'sec', 'ssd', 'system', 'tz']
     def __init__(self):
         #添加模块环境变量
-        sys.path.append(os.getcwd())
-        p=os.path.abspath(self.adbdir)+"; "+ os.environ.get("path")
-        os.environ["path"]=p  #添加adb命令环境变量
-        self.getconf()
-        if self.isroot():
-            print "Root Pass"
-            self.getparts()
-            #self.mountrw()
+        global _CODE_
+        if(sys.platform == 'darwin'):
+            _CODE_ ="utf-8"
+        else:
+            _CODE_ ="gbk"
+            sys.path.append(os.getcwd())
+            p=os.path.abspath(self.adbdir)+"; "+ os.environ.get("path")
+            os.environ["path"]=p  #添加adb命令环境变量
+            self.getconf()
+            if self.isroot():
+                print "Root Pass"
+                self.getparts()
+                #self.mountrw()
             
     
     def getimei(self):
